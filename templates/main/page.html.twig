@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello!{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block body %}
     <div class="container theme-showcase" role="main">
         <div class="jumbotron">
-            <h1>allo?</h1>
-            <p>oui</p>
-            <span class="label-success">text</span>
+            <h1>{{ page.title }}</h1>
+            <p>{{ page.content }}</p>
         </div>
 
-        <img class="img-thumbnail" alt="alt" src="img/src" data-holder-rendered="true">
+        <div>
+            <span>Par moi le {{ page.publishedDate|date('d/m/y', "Europe/Paris") }}</span>
+        </div>
+
+        <img class="img-thumbnail" src="img/{{ page.imgSrc }}" alt="" data-holder-rendered="true">
     </div>
 {% endblock %}
