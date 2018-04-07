@@ -23,14 +23,9 @@ class MainController extends AbstractController
      * @Route("/", name="index")
      * @Method("GET")
      */
-    public function index(PageRepository $PageRepository)
+    public function index()
     {
-        $pages = $PageRepository->findAll();
-
-        return $this->render('main/index.html.twig', [
-                'pages' => $pages
-            ]
-        );
+        return $this->render('main/index.html.twig');
     }
 
     /**
@@ -39,7 +34,6 @@ class MainController extends AbstractController
      */
     public function page($slug, PageRepository $PageRepository)
     {
-        $pages = $PageRepository->findAll();
         $page = $PageRepository->findOneBy(['slug' => $slug]);
 
         if ($page === null) {
@@ -47,7 +41,6 @@ class MainController extends AbstractController
         }
 
         return $this->render('main/page.html.twig', [
-                'pages' => $pages,
                 'page' => $page
             ]
         );
