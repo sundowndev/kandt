@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -13,6 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
+    public function __construct(PageRepository $PageRepository, \Twig_Environment $twig)
+    {
+        $pages = $PageRepository->findAll();
+
+        $twig->addGlobal('pages', $pages);
+    }
+
     /**
      * @Route("/", name="index")
      * @Method("GET")
@@ -21,15 +27,14 @@ class MainController extends AbstractController
     {
         $pages = $PageRepository->findAll();
 
-        return $this->render('main/index.html.twig',
-            [
+        return $this->render('main/index.html.twig', [
                 'pages' => $pages
             ]
         );
     }
 
     /**
-     * @Route("/page/{slug}", requirements={"page": "[1-9]\d*"}, name="single_page")
+     * @Route("/page/{slug}", name="single_page")
      * @Method("GET")
      */
     public function page($slug, PageRepository $PageRepository)
@@ -41,8 +46,7 @@ class MainController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        return $this->render('main/page.html.twig',
-            [
+        return $this->render('main/page.html.twig', [
                 'pages' => $pages,
                 'page' => $page
             ]
