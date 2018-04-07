@@ -12,9 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
-    public function __construct(PageRepository $PageRepository, \Twig_Environment $twig)
+    public function __construct(PageRepository $pageRepository, \Twig_Environment $twig)
     {
-        $pages = $PageRepository->findAll();
+        $pages = $pageRepository->findBy([], ['id' => 'desc']);
 
         $twig->addGlobal('pages', $pages);
     }
