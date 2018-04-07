@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'main/base.html.twig' %}
 
 {% block title %}{{ page.title }}{% endblock %}
 
@@ -13,6 +13,6 @@
             <span>Par moi le {{ page.publishedDate|date('d/m/y', "Europe/Paris") }}</span>
         </div>
 
-        <img class="img-thumbnail" src="img/{{ page.imgSrc }}" alt="" data-holder-rendered="true">
+        <img class="img-thumbnail" src="img/{{ page.imgSrc }}" alt="{{ page.imgSrc }}" data-holder-rendered="true">
     </div>
 {% endblock %}

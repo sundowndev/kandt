@@ -13,12 +13,12 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">{{ sitename }}</a>
+            <a class="navbar-brand" href="{{ path('index') }}">{{ sitename }}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {% for OnePage in pages %}
-                    <li {% if page is defined and page.slug == OnePage.slug %}class="active"{% endif %}><a href="/page/{{ OnePage.slug }}">{{ OnePage.title }}</a></li>
+                    <li {% if page is defined and page.slug is same as(OnePage.slug) %}class="active"{% endif %}><a href="{{ path('single_page', { 'slug': OnePage.slug }) }}">{{ OnePage.title }}</a></li>
                 {% endfor %}
             </ul>
         </div>

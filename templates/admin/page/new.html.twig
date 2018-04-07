@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouvelle page{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle page</h1>
+
+    {{ include('admin/page/_form.html.twig') }}
+
+    <hr>
+
+    <a href="{{ path('page_index') }}">Retourner à la liste des pages</a>
+{% endblock %}

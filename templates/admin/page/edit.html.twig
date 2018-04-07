@@ -1,0 +1,17 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier une page{% endblock %}
+
+{% block body %}
+    <h1>Edit Page</h1>
+
+    {{ include('admin/page/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <hr>
+
+    <a href="{{ path('page_index') }}">Retourner à la liste des pages</a>
+
+    <hr>
+
+    {{ include('admin/page/_delete_form.html.twig') }}
+{% endblock %}

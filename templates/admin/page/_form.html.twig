@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        <label for="page_title">Titre</label>
+        {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+
+    <div class="form-group">
+        <label for="page_content">Contenu de la page</label>
+        {{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+
+    <button class="btn btn-success">{{ button_label|default('Publier') }}</button>
+{{ form_end(form) }}

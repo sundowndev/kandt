@@ -1,0 +1,36 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Pages{% endblock %}
+
+{% block body %}
+    <h1>Pages <small><a href="{{ path('page_new') }}">Nouvelle page</a></small></h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Author</th>
+                <th>PublishedDate</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.title }}</td>
+                <td>{{ page.content }}</td>
+                <td>{{ page.authorId }}</td>
+                <td>{{ page.publishedDate ? page.publishedDate|date('d/m/y') : '' }}</td>
+                <td>
+                    <a href="{{ path('page_edit', {'id': page.id}) }}" class="btn btn-xs btn-primary">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Aucune page trouvée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

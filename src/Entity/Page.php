@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
@@ -23,18 +24,20 @@ class Page
 
     /**
      * @ORM\Column(type="string", length=40)
+     * @Assert\NotBlank()
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $img_src;
+    private $imgSrc;
 
     /**
      * @ORM\Column(type="integer")
@@ -45,6 +48,11 @@ class Page
      * @ORM\Column(type="date")
      */
     private $publishedDate;
+
+    public function __construct()
+    {
+        $this->publishedDate = new \DateTime();
+    }
 
     public function getId()
     {
@@ -89,12 +97,12 @@ class Page
 
     public function getImgSrc(): ?string
     {
-        return $this->img_src;
+        return $this->imgSrc;
     }
 
-    public function setImgSrc(string $img_src): self
+    public function setImgSrc(string $imgSrc): self
     {
-        $this->img_src = $img_src;
+        $this->imgSrc = $imgSrc;
 
         return $this;
     }
