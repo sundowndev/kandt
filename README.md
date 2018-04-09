@@ -4,7 +4,9 @@ Une application comme on n'en fait plus.
 
 ## Features
 
-- [ ] Page management
+- [x] Page management
+  - [ ] Image upload
+  - [ ] Order feature
 - [ ] Category management
 - [ ] User management
 - [ ] Comments management
