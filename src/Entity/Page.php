@@ -24,13 +24,27 @@ class Page
 
     /**
      * @ORM\Column(type="string", length=40)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Vous ne pouvez pas saisir un titre vide."
+     * )
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 40,
+     *      minMessage = "Votre titre doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Votre titre ne doit pas dépasser {{ limit }} caractères."
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Veuillez saisir un contenu."
+     * )
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage = "Votre contenu doit contenir au minimum {{ limit }} caractères.",
+     * )
      */
     private $content;
 

@@ -7,9 +7,11 @@ use App\Form\PageType;
 use App\Repository\PageRepository;
 use App\Utils\Slugger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\MakerBundle\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/admin/pages")
@@ -34,26 +36,34 @@ class PageController extends Controller
      *
      * @Route("/new", name="page_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ValidatorInterface $validator): Response
     {
         $page = new Page();
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $page->setSlug(Slugger::slugify($page->getTitle()));
             $page->setAuthorId(1);
             $page->setImgSrc('mdr');
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($page);
-            $em->flush();
 
-            return $this->redirectToRoute('page_index');
+            $errors = $validator->validate($page);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($page);
+                $em->flush();
+
+                return $this->redirectToRoute('page_index', [
+                    'messages' => ['Page créée avec succès !']
+                ]);
+            }
         }
 
         return $this->render('admin/page/new.html.twig', [
             'page' => $page,
             'form' => $form->createView(),
+            'messages' => $errors ?? []
         ]);
     }
 

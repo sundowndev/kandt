@@ -12,7 +12,9 @@ class PageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, array(
+                'empty_data' => '',
+            ))
             ->add('content')
             //->add('img_src')
         ;

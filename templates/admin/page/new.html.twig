@@ -5,6 +5,12 @@
 {% block body %}
     <h1>Nouvelle page</h1>
 
+    {% for message in messages %}
+        <div class="alert alert-notice alert-danger">
+            {{ message.message }}
+        </div>
+    {% endfor %}
+
     {{ include('admin/page/_form.html.twig') }}
 
     <hr>
