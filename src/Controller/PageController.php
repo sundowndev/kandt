@@ -14,14 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/admin/pages")
+ * @Route("/admin/pages", name="page_")
  */
 class PageController extends Controller
 {
     /**
      * List all pages
      *
-     * @Route("/", name="page_index", methods="GET")
+     * @Route("/", name="index", methods="GET")
      */
     public function index(PageRepository $pageRepository): Response
     {
@@ -34,7 +34,7 @@ class PageController extends Controller
     /**
      * Create a new page
      *
-     * @Route("/new", name="page_new", methods="GET|POST")
+     * @Route("/new", name="new", methods="GET|POST")
      */
     public function new(Request $request, ValidatorInterface $validator): Response
     {
@@ -42,35 +42,29 @@ class PageController extends Controller
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $page->setSlug(Slugger::slugify($page->getTitle()));
             $page->setAuthorId(1);
             $page->setImgSrc('mdr');
 
-            $errors = $validator->validate($page);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($page);
+            $em->flush();
 
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($page);
-                $em->flush();
-
-                return $this->redirectToRoute('page_index', [
-                    'messages' => ['Page créée avec succès !']
-                ]);
-            }
+            return $this->redirectToRoute('page_index');
         }
 
         return $this->render('admin/page/new.html.twig', [
             'page' => $page,
             'form' => $form->createView(),
-            'messages' => $errors ?? []
+            'messages' => $form->getErrors(true),
         ]);
     }
 
     /**
      * Edit a page
      *
-     * @Route("/{id}/edit", name="page_edit", methods="GET|POST")
+     * @Route("/{id}/edit", name="edit", methods="GET|POST")
      */
     public function edit(Request $request, Page $page): Response
     {
@@ -92,7 +86,7 @@ class PageController extends Controller
     /**
      * Delete a page
      *
-     * @Route("/{id}", name="page_delete", methods="DELETE")
+     * @Route("/{id}", name="delete", methods="DELETE")
      */
     public function delete(Request $request, Page $page): Response
     {
